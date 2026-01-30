@@ -51,39 +51,34 @@ FenwickTree::FenwickTree(int size)
     FenwickTree::size = newSize;
 }
 
+//check if works
 void FenwickTree::updateElement(int index, int addValue)
 {
     index++;
-    index = index & -index;
     while(index < FenwickTree::size)
     {
         FenwickTree::tree[index] += addValue;
+        index += index & -index;
     }
 }
 
 TYPE FenwickTree::segmentSum(int l, int r)
 {
     if(l > r) std::swap(l, r);
-
     r++;
-
-    int lresp = 1 << responsibilityCount(l);
-    int rresp = 1 << responsibilityCount(r);
-
+    
     int sum = 0;
 
     while(r)
     {
         sum += FenwickTree::tree[r];
-        r -= rresp;
-        rresp = 1 << responsibilityCount(r);
+        r -= r & -r;
     }
 
     while(l)
     {
         sum -= FenwickTree::tree[l];
-        l -= lresp;
-        lresp = 1 << responsibilityCount(l);
+        l -= l & -l;
     }
 
     return sum;
