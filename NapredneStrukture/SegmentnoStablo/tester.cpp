@@ -12,6 +12,11 @@ int main()
 
     segTree t(arr);
 
+    t.increase(4, 20);
+    t.increase(6, 9);
+    t.increase(6, 7);
+    t.increase(3, 60);
+
     while(true)
     {
         int l, r; std::cin >> l >> r;
