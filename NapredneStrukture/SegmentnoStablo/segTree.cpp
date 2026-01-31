@@ -15,7 +15,7 @@ segTree::segTree(std::vector<int> arr)
 {
     int n = arr.size();
 
-    int size = powerOf2(n);
+    int size = powerOf2(n) * 2;
     segTree::tree.resize(size);
     
     for(int i = size / 2; i < size; i++)
@@ -44,10 +44,12 @@ ll segTree::segSum(int l, int r)
 
     while(l <= r)
     {
-        if(l % 2) res += segTree::tree[l++];
+        if(l % 2) 
+            res += segTree::tree[l++];
         l /= 2;
 
-        if(r % 2 == 0) res += segTree::tree[r++];
+        if(r % 2 == 0) 
+            res += segTree::tree[r--];
         r /= 2; 
     }
 
