@@ -31,6 +31,17 @@ struct segNode
         this->maxSub = 0;
     }
 
+    void toString()
+    {
+        std::cout << 
+            "segSum: " << segSum << std::endl <<
+            
+            "prefix: " << prefixSum << std::endl <<
+            
+            "sufix: " << sufixSum << std::endl <<
+            
+            "goat: " << maxSub << std::endl;
+    }
 
 };
 
@@ -54,11 +65,11 @@ struct SegTree
     std::vector<segNode> tree;
     int size;
 
-    SegTree(std::vector<int> arr)
+    SegTree(const std::vector<int>& arr)
     {
         int size = closestPow2(arr.size()) * 2;
 
-        tree.resize(size);
+        tree.resize(size, segNode());
 
         for(int i = size / 2, ti = 0; i < size; i++, ti++)
         {
@@ -66,16 +77,12 @@ struct SegTree
             {
                 tree[i] = segNode(arr[ti], std::max(arr[ti], 0), std::max(arr[ti], 0), std::max(arr[ti], 0));
             }
-            else tree[i] = segNode();
+            else break;
         }
 
         for(int i = size / 2 - 1; i > 0; i--)
         {
-            segNode segL = tree[i * 2];
-            segNode segR = tree[i * 2 + 1];
-
-
-            tree[i] = combine(tree[i * 2] , tree[i * 2 + 1]);
+            tree[i] = combine(tree[i * 2], tree[i * 2 + 1]);
         }
 
         this->size = size;
@@ -84,29 +91,38 @@ struct SegTree
 
     int maxSubSeg(int l, int r)
     {
-        l++, r++;
+        l += SegTree::size / 2, r += SegTree::size / 2;
+
 
         int maxl = 0, maxr;
 
-        while(l <= r)
+        segNode lnode = tree[l];
+        segNode rnode = tree[r];
+        
+        if(l == r) return lnode.maxSub;
+
+        while(l / 2 != r / 2)
         {
-            if(l % 2)
+
+            if(l % 2 == 0)
             {
-                segNode t = combine(tree[l], tree[l / 2 + 1]);
-                maxl = t.maxSub;
+                lnode = combine(lnode, tree[l + 1]);
             }
             l /= 2;
 
+
             if(r % 2)
             {
-                segNode t = combine(tree[r], tree[r / 2 - 1]);
-                maxr = t.maxSub;
+                rnode = combine(tree[r - 1], rnode);
             }
-            r /= 2;
-
+            r /= 2;            
+            std::cout << "\nL: " << l << "\nLnode: \n"; 
+            lnode.toString();            
+            std::cout << "\nR: " << r << "\nRnode: \n"; 
+            rnode.toString();
         }
 
-        return std::max(maxl, maxr);
+        return combine(lnode, rnode).maxSub;
     }
 
 };
