@@ -22,7 +22,13 @@ struct segNode
         this->sufixSum = sufixSum;
         this->maxSub = maxSub;
     }
-
+    segNode(TYPE segSum)
+    {
+        this->segSum = segSum;
+        this->prefixSum = std::max(segSum, 0);
+        this->sufixSum = std::max(segSum, 0);
+        this->maxSub = std::max(segSum, 0);
+    }
     segNode()
     {
         this->segSum = 0;
@@ -75,7 +81,7 @@ struct SegTree
         {
             if(ti < arr.size())
             {
-                tree[i] = segNode(arr[ti], std::max(arr[ti], 0), std::max(arr[ti], 0), std::max(arr[ti], 0));
+                tree[i] = segNode(arr[ti]);
             }
             else break;
         }
@@ -96,8 +102,8 @@ struct SegTree
 
         int maxl = 0, maxr;
 
-        segNode lnode = tree[l];
-        segNode rnode = tree[r];
+        segNode lnode = SegTree::tree[l];
+        segNode rnode = SegTree::tree[r];
         
         if(l == r) return lnode.maxSub;
 
@@ -106,25 +112,40 @@ struct SegTree
 
             if(l % 2 == 0)
             {
-                lnode = combine(lnode, tree[l + 1]);
+                lnode = combine(lnode, SegTree::tree[l + 1]);
             }
             l /= 2;
 
 
             if(r % 2)
             {
-                rnode = combine(tree[r - 1], rnode);
+                rnode = combine(SegTree::tree[r - 1], rnode);
             }
             r /= 2;            
+            /* TESTER
             std::cout << "\nL: " << l << "\nLnode: \n"; 
             lnode.toString();            
             std::cout << "\nR: " << r << "\nRnode: \n"; 
-            rnode.toString();
+            rnode.toString();*/
         }
 
         return combine(lnode, rnode).maxSub;
     }
 
+
+    void updateComponent(int index, int newValue)
+    {
+        index += SegTree::size / 2;
+
+        SegTree::tree[index] = segNode(newValue);
+        index /= 2;
+        while(index)
+        {
+            SegTree::tree[index] = combine(SegTree::tree[index * 2], SegTree::tree[index * 2 + 1]);
+            index /= 2;
+        }
+        
+    }
 };
 
 int main()
@@ -137,10 +158,16 @@ int main()
 
     SegTree st(arr);
 
-    for(int i = 0; i < n; i++)
+    int k; std::cin >> k;
+
+    for(int i = 0; i < k; i++)
     {
+        char key; std::cin >> key;
         int l, r; std:: cin >> l >> r;
-        std::cout << st.maxSubSeg(l, r);
+
+        if(key == 's')
+            std::cout << st.maxSubSeg(l, r) << std::endl;
+        else st.updateComponent(l, r);
 
     }
 
