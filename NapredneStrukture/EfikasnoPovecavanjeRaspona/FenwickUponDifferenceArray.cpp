@@ -73,7 +73,7 @@ struct FDA //Fenwick Difference Array
         FDA::bit.resize(FDA::size, 0);
 
         //construct Fenwick tree, evil hack
-        for(int i = 1; i <= FDA::size; i++)
+        for(int i = 1; i < FDA::size; i++)
         {   
             if(i - 1 < diffArr.size())
                 FDA::bit[i] += diffArr[i - 1];
