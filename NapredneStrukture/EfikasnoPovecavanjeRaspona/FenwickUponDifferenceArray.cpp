@@ -157,6 +157,9 @@ int main()
 
     int l, r, inc; std::cin >> l >> r >> inc;
 
+    fda.pointUpdate(3, 100);
+    
+    fda.pointUpdate(4, 150);
     fda.rangeUpdate(l, r, inc);
 
     for(int i = 0; i < n; i++)
