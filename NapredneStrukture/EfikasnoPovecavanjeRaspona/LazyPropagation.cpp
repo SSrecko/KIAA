@@ -170,6 +170,16 @@ struct SegTree
 
     }
 
+    void completeTree(int currIndex, int range)
+    {
+        if(range)
+        {
+            propagateAndUpdate(currIndex, range);
+            completeTree(currIndex * 2, range / 2);
+            completeTree(currIndex * 2 + 1, range / 2);
+        }
+    }
+
     public:
 
     std::vector<SegNode> tree;
@@ -227,6 +237,12 @@ struct SegTree
         return range_query(1, 0, this->size / 2 - 1, l, r);
     }
 
+
+    void completeTree()
+    {
+        completeTree(1, this->size / 2);
+    }
+
 };
 
 
@@ -246,5 +262,10 @@ int main()
     std::cout << std::endl;
     st.printTree();
 
+    /*
+    st.completeTree();
+    st.printTree();
+
+    */
     return 0;
 }
