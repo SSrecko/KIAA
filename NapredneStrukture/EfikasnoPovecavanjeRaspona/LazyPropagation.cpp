@@ -170,13 +170,13 @@ struct SegTree
 
     }
 
-    void completeTree(int currIndex, int range)
+    void complete_tree(int currIndex, int range)
     {
         if(range)
         {
             propagateAndUpdate(currIndex, range);
-            completeTree(currIndex * 2, range / 2);
-            completeTree(currIndex * 2 + 1, range / 2);
+            complete_tree(currIndex * 2, range / 2);
+            complete_tree(currIndex * 2 + 1, range / 2);
         }
     }
 
@@ -238,14 +238,12 @@ struct SegTree
     }
 
 
-    void completeTree()
+    void complete_tree()
     {
-        completeTree(1, this->size / 2);
+        complete_tree(1, this->size / 2);
     }
 
 };
-
-
 
 int main()
 {
@@ -263,7 +261,7 @@ int main()
     st.printTree();
 
     /*
-    st.completeTree();
+    st.complete_tree();
     st.printTree();
 
     */
