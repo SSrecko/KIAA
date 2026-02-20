@@ -5,22 +5,47 @@
 
 struct SegTree
 {
+    //Segment Tree operating witih addition
+    /*
+        GOALS:
+
+        Point Query (logn)
+
+        Range Query (logn)
+
+        Point Update (logn)
+
+        Range Update (logn)
+
+        Range Set (log n)
+
+    */ 
     private:
 
     struct SegNode
     {
         int value;
         int adjust;
+        int set;
+        bool shouldSet;
 
         SegNode()
         {
-            value = 0; adjust = 0;
+            value = 0; adjust = 0; set = 0;
+            shouldSet = false;
         }
 
         SegNode(int value)
         {
             this->value = value;
             this->adjust = 0;
+            this->set = 0;
+            this->shouldSet = false;
+        }
+
+        bool updated()
+        {
+            return set + adjust;
         }
 
     };
@@ -51,6 +76,11 @@ struct SegTree
         {
             tree[i].value = ogArr[i - this->size / 2];
         }
+
+        for(int i = this->size / 2 - 1; i > 0; i--)
+        {
+            tree[i].value = tree[2 * i].value + tree[2 * i + 1].value;
+        }
     }
 
     SegTree(int n)
@@ -59,7 +89,7 @@ struct SegTree
         tree.resize(this->size, SegNode());
     }
 
-
+    
 };
 
 
