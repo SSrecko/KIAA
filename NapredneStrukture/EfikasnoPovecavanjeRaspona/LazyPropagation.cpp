@@ -51,6 +51,7 @@ struct SegTree
             {
                 this->adjust = 0;
                 this->set = set;
+                this->shouldSet = true;
             }
             else if(this->shouldSet)
             {
@@ -64,18 +65,12 @@ struct SegTree
 
         bool updated()
         {
-            return !(adjust + shouldSet);
+            return !(adjust || shouldSet);
         }
 
         void update(int range)
         {
             value = set * range * shouldSet + (value +  range * adjust) * !shouldSet;
-
-            SegNode propagateNode = SegNode();
-
-            propagateNode.adjust = this->adjust;
-            propagateNode.set = this->set;
-            propagateNode.shouldSet = this->set;
 
             this->adjust = 0;
             this->set = 0;
@@ -149,6 +144,7 @@ struct SegTree
         else if(currLeft >= segLeft && currRight <= segRight)
         {
             tree[currIndex].queue_update(0, value, true);
+            propagateAndUpdate(currIndex, currRight - currLeft + 1);
         }
         else
         {
@@ -235,7 +231,7 @@ struct SegTree
         std::cout << "Lazy Tree \n";
         for(int i = 1; i < this->size; i++)
         {
-            std::cout << i << ": " << tree[i].adjust << " | ";
+            std::cout << i << ": " << tree[i].adjust << ", " << tree[i].set << " | ";
             if(i + 1 == closestPow2(i + 1)) std::cout << std::endl;
         }
     }
