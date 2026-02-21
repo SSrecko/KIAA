@@ -9,17 +9,17 @@ struct SegTree
     /*
         GOALS:
 
-        Point Query O(logn)
+        Point Query O(logn) done
 
-        Range Query O(logn)
+        Range Query O(logn) done 
 
-        Point Update O(logn)
+        Point Update O(logn) done
 
         Range Update O(logn) done
 
-        Range Set O(log n)
+        Range Set O(log n) done
 
-        Complete Tree (n)
+        Complete Tree (n) done
 
     */ 
     private:
