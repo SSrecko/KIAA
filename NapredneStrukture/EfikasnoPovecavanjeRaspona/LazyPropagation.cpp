@@ -9,15 +9,17 @@ struct SegTree
     /*
         GOALS:
 
-        Point Query (logn)
+        Point Query O(logn)
 
-        Range Query (logn)
+        Range Query O(logn)
 
-        Point Update (logn)
+        Point Update O(logn)
 
-        Range Update (logn) done
+        Range Update O(logn) done
 
-        Range Set (log n)
+        Range Set O(log n)
+
+        Complete Tree (n)
 
     */ 
     private:
@@ -87,17 +89,12 @@ struct SegTree
     {
         int k = 1;
         while(k < n)
-        {
             k <<= 1;
-        }
 
         return k;
     }
 
-    /*
-        updates the current node, and pushes the required updates to lower nodes
-    */
-
+    //  updates the current node, and pushes the required updates to child nodes
     void propagateAndUpdate(int nodeIndex, int range)
     {
         //nothing to do
@@ -142,6 +139,26 @@ struct SegTree
 
             tree[currIndex].value = tree[currIndex * 2].value + tree[currIndex * 2 + 1].value;
         }   
+    }
+
+    void range_set_update(int currIndex, int currLeft, int currRight, int segLeft, int segRight, int value)
+    {
+        propagateAndUpdate(currIndex, currRight - currLeft + 1);
+
+        if(currLeft > segRight || currRight < segLeft) return;
+        else if(currLeft >= segLeft && currRight <= segRight)
+        {
+            tree[currIndex].queue_update(0, value, true);
+        }
+        else
+        {
+            int s = currLeft + (currRight - currLeft) / 2;
+
+            range_set_update(currIndex * 2, currLeft, s, segLeft, segRight, value);
+            range_set_update(currIndex * 2 + 1, s + 1, currRight, segLeft, segRight, value);
+
+            tree[currIndex].value = tree[currIndex * 2].value + tree[currIndex * 2 + 1].value;
+        }
     }
 
     int range_query(int currIndex, int currLeft, int currRight, int segLeft, int segRight)
@@ -207,7 +224,7 @@ struct SegTree
         tree.resize(this->size, SegNode());
     }
 
-    void printTree()
+    void print_tree()
     {
         std::cout << "Main Tree: \n" ;
         for(int i = 1; i < this->size; i++)
@@ -221,7 +238,6 @@ struct SegTree
             std::cout << i << ": " << tree[i].adjust << " | ";
             if(i + 1 == closestPow2(i + 1)) std::cout << std::endl;
         }
-
     }
 
     //inclusive, 0 indexed
@@ -230,13 +246,31 @@ struct SegTree
         range_increase_update(1, 0, this->size / 2 - 1, l, r, value);
     }
 
-
     //inclusive, 0 indexed
     int range_query(int l, int r)
     {
         return range_query(1, 0, this->size / 2 - 1, l, r);
     }
 
+    void range_set_update(int l, int r, int value)
+    {
+        range_set_update(1, 0, this->size / 2 - 1, l, r, value);
+    }
+
+    void point_increase(int index, int value)
+    {
+        range_increase_update(index, index, value);
+    }
+
+    void point_set(int index, int value)
+    {
+        range_set_update(index, index, value);
+    }
+
+    int point_query(int index)
+    {
+        return range_query(index, index);
+    }
 
     void complete_tree()
     {
@@ -247,23 +281,73 @@ struct SegTree
 
 int main()
 {
-    int n = 12;
-    std::vector<int> arr = {5, -2, 13, 0, 7, 7, -9, 4, 18, -1, 6, 2};
+    std::cout << "Array Size: ";
+    int n; std::cin >> n;
 
-    SegTree st = SegTree(arr);
+    SegTree st = SegTree(n);
 
-    st.range_increase_update(0, 3, 100);
+    while(true)
+    {
+        std::string code;
+        int l, r, v;
+        
+        std::cin >> code;
 
-    std::cout << "query one: " << st.range_query(0, 0);
-    std::cout << "\nquery two: " << st.range_query(0, 1);
-    std::cout << "\nquery three: " << st.range_query(0, n - 1);
-    std::cout << std::endl;
-    st.printTree();
+        if(code[0] == 'r')
+        {
+            std::cin >> l >> r;
+            if(code[1] != 'q') std::cin >> v;
 
-    /*
-    st.complete_tree();
-    st.printTree();
+            switch(code[1])
+            {
+                case 'i':
+                    st.range_increase_update(l, r, v);
+                    break;
+                case 's':
+                    st.range_set_update(l, r, v);
+                    break;
+                case 'q': 
+                    std::cout << st.range_query(l, r) << std::endl;
+            }
+        }
+        else if(code[0] == 'p')
+        {
+            std::cin >> l;
 
-    */
+            if(code[1] != 'q') std::cin >> v;
+
+            switch(code[1])
+            {
+                case 'i':
+                    st.point_increase(l, v);
+                    break;
+                case 's':
+                    st.point_set(l, v);
+                    break;
+                case 'q': 
+                    std::cout << st.point_query(l) << std::endl;
+            }
+        }
+        else if(code[0] == 'v')
+            st.print_tree();
+        else if(code[0] == 'c')
+            st.complete_tree();
+    }
+
     return 0;
 }
+
+/*  TEST LEGEND
+
+    ri = range increase
+    rs = range set
+    rq = range query
+
+    pi = point increase
+    ps = point set
+    pq = point query
+
+    vt = view tree
+    ct = complete tree
+
+*/
