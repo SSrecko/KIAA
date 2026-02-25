@@ -1,0 +1,65 @@
+Osnovna terminologija
+
+skracenice
+
+u, v -> cvorovi grafa
+p -> relacija veze, u p q -> u povezano sa q
+
+
+Zajednicko
+
+    cvor -> entitet u grafu
+
+
+Neusmeran graf: u p v => v p u
+
+    Grana -> neuredjena dvojka, koja oznacava povezanost dva cvora
+
+    Sused -> svaki element koji je povezan sa u
+
+    Stepen -> broj grana koji izlaze/ulaze iz cvora
+
+    Povezan -> Postoji put izmedju svaka dva cvora
+
+    Šuma -> ne sadrzi cikluse
+
+    Drvo -> povezane sume
+
+Usmeren graf
+
+    Grana -> uredjena dvojka, koja oznacava da je prvi povezan sa drugim
+
+    Ulazni stepen -> broj grana koji ulaze u cvor
+
+    Izlazni stepen -> broj grana koji izlaze iz cvora
+
+    Sused -> Element u koji se moze doci iz u
+
+    Usmeren graf bez ciklusa -> DAG (Directed acyclic graph)
+
+    Slabo povezan -> Njegov neusmeren oblik je Povezan
+
+    Jako povezan -> Postoji put izmedju svaka dva cvora u usmerenom grafu
+
+Put
+
+    -> Niz cvorova grafa G (v1, v2, v3, ..., vk) povezanih
+    granama (v1, v2), (v2, v3), ..., (vk - 1, vk)
+
+    Put je prost -> ne postoji vi, t.d. vi = vj, za svako j koje pripada {1, ..., k} \ i
+
+    cvor v je dostizan iz u -> postoji put iz u do v
+
+    svaki cvor je dostizan iz sebe
+
+Ciklus
+
+    Put koji krece iz jednog cvora i zavrsava u njemu 
+
+    Ciklus je prost akko su jedina dva ista elementa prvi i poslednji
+
+Podgraf
+
+    Graf G' je podgraf G, ako su Cvorivi G' podskup Cvorova G, i Grane G' podksup Grana G
+
+
