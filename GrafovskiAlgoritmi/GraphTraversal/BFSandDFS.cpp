@@ -1,5 +1,6 @@
 #include <iostream>
 #include <queue>
+#include <stack>
 #include <vector>
 
 struct Graph
@@ -104,6 +105,34 @@ void BFS(Graph G, int startNode)
             if(!checked[tmp[i]])
             {
                 q.push(tmp[i]);
+                checked[tmp[i]] = 1;
+            }
+        }
+
+        std::cout << curr << std::endl;
+    }
+    
+}
+
+void DFS(Graph G, int startNode)
+{
+    std::vector<int> checked(G.v, 0);
+
+    std::queue<int> s;
+    s.push(startNode);
+    checked[startNode] = 1;
+    while(!s.empty())
+    {
+        int curr = s.top();
+        s.pop();
+
+        std::vector<int> tmp = G.getAdj(curr);
+
+        for(int i = 0; i < tmp.size(); i++)
+        {
+            if(!checked[tmp[i]])
+            {
+                s.push(tmp[i]);
                 checked[tmp[i]] = 1;
             }
         }
