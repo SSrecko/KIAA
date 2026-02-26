@@ -118,7 +118,7 @@ void DFS(Graph G, int startNode)
 {
     std::vector<int> checked(G.v, 0);
 
-    std::queue<int> s;
+    std::stack<int> s;
     s.push(startNode);
     checked[startNode] = 1;
     while(!s.empty())
