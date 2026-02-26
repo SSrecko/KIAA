@@ -61,5 +61,3 @@ Ciklus
 Podgraf
 
     Graf G' je podgraf G, ako su Cvorivi G' podskup Cvorova G, i Grane G' podksup Grana G
-
-
