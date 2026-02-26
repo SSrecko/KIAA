@@ -113,7 +113,7 @@ void BFS(Graph G, int startNode)
     }
     
 }
-
+//pseudo DFS
 void DFS(Graph G, int startNode)
 {
     std::vector<int> checked(G.v, 0);
