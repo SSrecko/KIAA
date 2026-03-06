@@ -68,7 +68,6 @@ struct Graph
         vertices[u].addAdj(v);
         vertices[v].addAdj(u);
     }
-
 };
 
 int main()

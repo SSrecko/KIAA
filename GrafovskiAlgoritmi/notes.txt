@@ -61,3 +61,43 @@ Ciklus
 Podgraf
 
     Graf G' je podgraf G, ako su Cvorivi G' podskup Cvorova G, i Grane G' podksup Grana G
+
+DFS
+
+    Terminologija: 
+
+        Koren: Mesto odakle je pusten DFS
+
+        DFS drvo: Drvo napravljeno prolaskom DFS-a kroz graf, DFS drvo nema cikluse
+
+    Numerisanje Cvorova
+
+        Po ulasku: Cvor dobija broj cim se udje u njega
+
+        Po izlasku: Cvor dobija broj kad se zavrsi sa njegovim susedima
+
+
+    Odnosi cvorova
+
+        Neka je drvo T (Tree), koren r (root), i genericna imena cvorova u, v, w
+
+        Dete: Prvi put pronadjeni, susedni cvor
+
+        Roditelj: Cvor iz kojeg se prvi put doslo do trenutnog
+
+        Predak/Potomak: u je predak v, u drvetu T sa korenom u r ako postoji jedinstveni put 
+        od r, do v koji prolazi kroz u. Ako je u potomak v, v je predak u
+
+        Levi/Desni cvorovi: Cvor u je levi/desni cvor cvoru v ako postoji zajednicki predak w i
+        u nije predak v. Relacija postoji za svaka dva cvora koja nisu u relaciji predak/potomak123`
+        .0
+
+    Kategorizacija Grana Usmerenog grafa
+
+        Grana: Roditelj sa Detetom
+
+        Direktna: Predak sa Potomkom
+
+        Povratna: Potomak sa Predkom
+
+        Popresena: Desni sa Levim
