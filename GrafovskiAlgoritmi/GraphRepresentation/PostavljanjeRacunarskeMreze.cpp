@@ -78,7 +78,7 @@ int main()
 
     UndirectedGraph g = UndirectedGraph(n);
 
-    for(int i = 0; i < n; i++)
+    for(int i = 0; i < m; i++)
     {
         int u, v;
         std::cin >> u >> v;
