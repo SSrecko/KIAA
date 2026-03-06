@@ -51,7 +51,7 @@ struct UndirectedGraph
 
 };
 
-void sol(UndirectedGraph g)
+void sol(UndirectedGraph &g)
 {
     std::vector<int> checked = std::vector<int>(g.size, 0);
 
