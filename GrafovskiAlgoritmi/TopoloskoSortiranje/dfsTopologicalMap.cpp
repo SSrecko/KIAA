@@ -60,7 +60,7 @@ std::vector<int> dfsTopMap(DirectedGraf &g)
 
     for(int i = 0; i < n / 2; i++)
     {
-        std::swap(topMap[i], topMap[n - i]);
+        std::swap(topMap[i], topMap[n - i - 1]);
     }
 
     return topMap;
