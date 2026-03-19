@@ -42,9 +42,9 @@ UndirectedGraph Prim(UndirectedGraph &g)
 {
     int n = g.size;
     std::set<std::pair<int, std::pair<int, int>>> q; //(weight, (origin, destination))
-    int start = 0;
-    //std::vector<std::pair<int, int>> final(n, { INF,  -1 } ); //cost, from
+
     std::vector<bool> checked(n, false);
+    
     checked[0] = true;
     for(auto &[dest, weight] : g.adj[0])
     {
